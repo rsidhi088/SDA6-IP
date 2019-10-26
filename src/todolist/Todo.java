@@ -3,25 +3,22 @@ package todolist;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.io.File;
 
-public class Todo
-{
+public class Todo {
 
     String option;
     public ArrayList<Task> tasklist;
 
-    public Todo()
-    {
+    public Todo() {
         option = new String();
         tasklist = new ArrayList<>();
 
     }
 
-    public void readInput()
-    {
+    public void readInput() {
+          try {
 
-        try
-        {
             String option = null;
             Scanner input = new Scanner(System.in);
 
@@ -36,8 +33,7 @@ public class Todo
 
             // To choose the function to be performed on the tasklist ie.. add,remove,update or list
 
-            do
-            {
+            do {
                 System.out.println("Enter your option below");
                 System.out.println("");
                 option = input.nextLine();
@@ -78,8 +74,10 @@ public class Todo
                         break;
                     case "0":
                         System.out.println("Exit ");
-
+                        break;
                     default:
+                        System.err.println("Invalid option selected");
+                        continue;
                 }
 
             }
@@ -87,26 +85,20 @@ public class Todo
 
             while (Integer.parseInt(option) > 0);
             SaveFile save = null;
-            try
-            {
+            try {
                 save = new SaveFile();
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             save.FileWrite(tasklist);
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
 
-        }
+       }
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
 
         Todo todo = new Todo();
         todo.readInput();
@@ -114,8 +106,7 @@ public class Todo
 
     // Method to add tasks into the task list one after the other
 
-    public void addTask()
-    {
+    public void addTask() {
 
         Scanner indata = new Scanner(System.in);
         System.out.println("ProjectName");
@@ -126,13 +117,10 @@ public class Todo
 
         System.out.println("Date");
         String date = indata.next();
-        try
-        {
+        try {
             Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(date);
             System.out.println(date1);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -147,25 +135,29 @@ public class Todo
 
     //Method to list all the tasks available in the tasklist by the use of Iterators
 
-    public void listTask()
-    {
+    public void listTask() {
+        File f = null;
+        Boolean exist = false;
 
-        try
-        {
-            LoadFile load = new LoadFile();
-            load.LoadFile();
+        try {
+            f = new File("D:Tasklistnew.csv");
+            exist = f.exists();
 
-            // The use of streams to print the elements in the list
+            if (exist == true) {
+                LoadFile load = new LoadFile();
+                load.LoadFile();
+                tasklist.forEach(elementInList -> System.out.println(elementInList));
+            } else {
+                tasklist.forEach(elementInList -> System.out.println(elementInList));
 
-            tasklist.forEach(elementInList -> System.out.println(elementInList));
+            }
 
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
-        catch (IOException e)
-        {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
+
     }
+
 
     //Method to update the tasklist.
 
@@ -259,13 +251,13 @@ public class Todo
 
 
             }
-            // Code modified
+
         }
         catch (IOException e)
         {
             System.out.println("An error occurred.");
             e.printStackTrace();
-        }   // Code modified
+        }
     }
 
     //Method to list the tasks based on project and duedate
