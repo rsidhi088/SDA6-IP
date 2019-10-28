@@ -94,6 +94,7 @@ public class Todo {
 
         } catch (Exception e) {
             e.printStackTrace();
+            readInput();
 
        }
     }
@@ -110,13 +111,14 @@ public class Todo {
 
         Scanner indata = new Scanner(System.in);
         System.out.println("ProjectName");
-        String project = indata.next();
+        String project = indata.nextLine();
+
 
         System.out.println("taskName");
-        String taskName = indata.next();
+        String taskName = indata.nextLine();
 
         System.out.println("Date");
-        String date = indata.next();
+        String date = indata.nextLine();
         try {
             Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(date);
             System.out.println(date1);
@@ -125,7 +127,7 @@ public class Todo {
         }
 
         System.out.println("Status");
-        String status = indata.next();
+        String status = indata.nextLine();
 
 
         Task taskToAdd = new Task(project, taskName, date, status);
@@ -146,9 +148,9 @@ public class Todo {
             if (exist == true) {
                 LoadFile load = new LoadFile();
                 load.LoadFile();
-                tasklist.forEach(elementInList -> System.out.println(elementInList));
+                tasklist.stream().forEach(elementInList -> System.out.println(elementInList));
             } else {
-                tasklist.forEach(elementInList -> System.out.println(elementInList));
+                tasklist.stream().forEach(elementInList -> System.out.println(elementInList));
 
             }
 
@@ -161,26 +163,30 @@ public class Todo {
 
     //Method to update the tasklist.
 
-    public void updateStatus()
-    {
-        Scanner Udata = new Scanner(System.in);
-        String searchString = Udata.nextLine();
-        ListIterator iterator = tasklist.listIterator();
-        System.out.println("Enter the status you want to update");
-        Scanner Ndata = new Scanner(System.in);
-        String C = Ndata.nextLine();
+    public void updateStatus() {
+        try {
 
-        //This loop is used to change the status based on Taskname
+            Scanner Udata = new Scanner(System.in);
+            String searchString = Udata.nextLine();
+            ListIterator iterator = tasklist.listIterator();
+            System.out.println("Enter the status you want to update");
+            Scanner Ndata = new Scanner(System.in);
+            String C = Ndata.nextLine();
 
-        while (iterator.hasNext())
-        {
-            Task t = (Task) iterator.next();
-            if (t.taskName.equals(searchString))
-            {
-                t.setStatus(C);
-                System.out.println("Status has been marked as " + C);
+
+            //This loop is used to change the status based on Taskname
+
+            while (iterator.hasNext()) {
+                Task t = (Task) iterator.next();
+                if (t.taskName.equals(searchString)) {
+                    t.setStatus(C);
+                    System.out.println("Status has been marked as " + C);
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     public void EditTask()
@@ -292,7 +298,9 @@ public class Todo {
         }
 
         System.out.println("Invalid entry");
+
     }
+
 }
 
 
