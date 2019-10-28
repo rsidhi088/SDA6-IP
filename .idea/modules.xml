@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
+      <module fileurl="file://$PROJECT_DIR$/ToDoFinal.iml" filepath="$PROJECT_DIR$/ToDoFinal.iml" />
+=======
       <module fileurl="file://$PROJECT_DIR$/SDA6-IP.iml" filepath="$PROJECT_DIR$/SDA6-IP.iml" />
+>>>>>>> d00f4510560c115df9c6e10417b3802cfd182888
     </modules>
   </component>
 </project>
